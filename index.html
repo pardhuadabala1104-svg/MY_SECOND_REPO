@@ -1,125 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Dustbin Dashboard</title>
     <style>
+        /* Basic styles */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f0f4f8;
-            color: #333;
+            background-color: #f4f4f4;
         }
 
-        header {
+        .header {
             background-color: #4CAF50;
             color: white;
-            padding: 10px 0;
             text-align: center;
-            font-size: 1.5em;
+            padding: 20px;
         }
 
-        .container {
+        .dashboard-container {
             display: flex;
             justify-content: center;
             margin-top: 20px;
         }
 
-        .card {
-            background-color: white;
-            padding: 20px;
-            margin: 10px;
+        .dustbin-status {
+            width: 300px;
+            height: 300px;
+            background-color: #ddd;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 250px;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .status {
-            font-size: 1.5em;
-            font-weight: bold;
+        .dustbin-status h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .dustbin-level {
+            width: 80%;
+            height: 20px;
+            background-color: #f1f1f1;
+            border-radius: 10px;
+            overflow: hidden;
             margin-top: 10px;
+        }
+
+        .dustbin-fill {
+            height: 100%;
+            width: 0;
+            transition: width 0.5s ease;
         }
 
         .button-container {
             margin-top: 20px;
+            display: flex;
+            justify-content: center;
         }
 
-        .btn {
+        .update-btn {
             padding: 10px 20px;
             background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 16px;
         }
 
-        .btn:hover {
+        .update-btn:hover {
             background-color: #45a049;
         }
 
-        .btn:active {
-            transform: scale(0.98);
+        /* Status colors */
+        .low {
+            background-color: #4CAF50;
         }
 
-        .status-full {
-            color: red;
+        .medium {
+            background-color: #FFEB3B;
         }
 
-        .status-half-full {
-            color: orange;
+        .full {
+            background-color: #F44336;
         }
 
-        .status-empty {
-            color: green;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                flex-direction: column;
-                align-items: center;
-            }
+        .status-text {
+            font-size: 20px;
+            margin-top: 10px;
         }
     </style>
 </head>
-
 <body>
 
-    <header>
-        Smart Dustbin Dashboard
-    </header>
+    <div class="header">
+        <h1>Smart Dustbin Dashboard</h1>
+    </div>
 
-    <div class="container">
-        <div class="card">
-            <h3>Dustbin Status</h3>
-            <div id="status" class="status status-empty">Empty</div>
-            <div class="button-container">
-                <button class="btn" onclick="changeStatus('empty')">Set Empty</button>
-                <button class="btn" onclick="changeStatus('half-full')">Set Half-Full</button>
-                <button class="btn" onclick="changeStatus('full')">Set Full</button>
+    <div class="dashboard-container">
+        <div class="dustbin-status">
+            <h2>Dustbin Status</h2>
+            <div class="dustbin-level">
+                <div class="dustbin-fill"></div>
+            </div>
+            <div class="status-text">
+                <span id="status-text">Status: Empty</span>
             </div>
         </div>
     </div>
 
+    <div class="button-container">
+        <button class="update-btn" onclick="updateDustbinLevel()">Update Dustbin Level</button>
+    </div>
+
     <script>
-        // JavaScript for updating the dustbin status
-        function changeStatus(status) {
-            const statusElement = document.getElementById('status');
+        // Simulate random dustbin fill level
+        function updateDustbinLevel() {
+            const fillLevel = Math.floor(Math.random() * 101); // Random fill percentage (0 to 100)
+            const dustbinFill = document.querySelector('.dustbin-fill');
+            const statusText = document.getElementById('status-text');
+            
+            dustbinFill.style.width = fillLevel + '%';
+            
+            if (fillLevel <= 30) {
+                statusText.textContent = `Status: Empty (${fillLevel}%)`;
+                dustbinFill.className = 'dustbin-fill low';
+            } else if (fillLevel <= 70) {
+                statusText.textContent = `Status: Medium (${fillLevel}%)`;
+                dustbinFill.className = 'dustbin-fill medium';
+            } else {
+                statusText.textContent = `Status: Full (${fillLevel}%)`;
+                dustbinFill.className = 'dustbin-fill full';
+            }
+        }
+    </script>
 
-            // Remove all previous status classes
-            statusElement.classList.remove('status-empty', 'status-half-full', 'status-full');
-
-            // Set new status based on the selected button
-            if (status === 'empty') {
-                statusElement.textContent = 'Empty';
-                statusElement.classList.add('status-empty');
-            } else if (status === 'half-full') {
-                statusElement.textContent = 'Half-Full';
-                statusElement.classList.add('status-half-full');
-            } else if (status === 'full') {
-                statusElement.textContent = 'Full';
-                statusElement.classList.add('status-full')
+</body>
+</html>
