@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Dustbin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 1.5em;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            text-align: center;
+        }
+
+        .status {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .status-full {
+            color: red;
+        }
+
+        .status-half-full {
+            color: orange;
+        }
+
+        .status-empty {
+            color: green;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        Smart Dustbin Dashboard
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h3>Dustbin Status</h3>
+            <div id="status" class="status status-empty">Empty</div>
+            <div class="button-container">
+                <button class="btn" onclick="changeStatus('empty')">Set Empty</button>
+                <button class="btn" onclick="changeStatus('half-full')">Set Half-Full</button>
+                <button class="btn" onclick="changeStatus('full')">Set Full</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for updating the dustbin status
+        function changeStatus(status) {
+            const statusElement = document.getElementById('status');
+
+            // Remove all previous status classes
+            statusElement.classList.remove('status-empty', 'status-half-full', 'status-full');
+
+            // Set new status based on the selected button
+            if (status === 'empty') {
+                statusElement.textContent = 'Empty';
+                statusElement.classList.add('status-empty');
+            } else if (status === 'half-full') {
+                statusElement.textContent = 'Half-Full';
+                statusElement.classList.add('status-half-full');
+            } else if (status === 'full') {
+                statusElement.textContent = 'Full';
+                statusElement.classList.add('status-full')
